@@ -21,24 +21,32 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="src/home.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
   </head>
   <body>
     <div class="container">
       <form action="" class="searchbr">
-        <input type="text" class="text" placeholder="⦿" />
+        <input
+          id="city-search-input"
+          type="text"
+          class="text"
+          placeholder="⦿"
+        />
+        <input type="submit" value="Search" />
       </form>
+
       <div class="top">
         <div class="location">
           <h1>
             PARIS, <br />
-            <span class="country"> France</span>
+            <span class="country" id="country"> France</span>
           </h1>
         </div>
 
         <div class="today-date">
           <h2>
-            FRIDAY <br />
-            <span class="date">29 October 2023</span>
+            <span id="weekday"> FRIDAY </span><br />
+            <span class="date" id="exact-date">29 October 2023</span>
           </h2>
         </div>
       </div>
@@ -90,6 +98,11 @@
           </li>
         </ul>
       </div>
+    </div>
+  </body>
+  <script src="src/index.js"></script>
+</html>
+
       <p>
         <a href="https://github.com/DanielaCardenasZ/my-weather-project"
           >Open-source code</a

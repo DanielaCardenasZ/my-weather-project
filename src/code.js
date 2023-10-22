@@ -1,49 +1,66 @@
-let weather = {
-  paris: {
-    temp: 19.7,
-    humidity: 80,
-  },
-  tokyo: {
-    temp: 17.3,
-    humidity: 50,
-  },
-  lisbon: {
-    temp: 30.2,
-    humidity: 20,
-  },
-  "san francisco": {
-    temp: 20.9,
-    humidity: 100,
-  },
-  oslo: {
-    temp: -5,
-    humidity: 20,
-  },
-};
-//Le dice al usuario que ponga una ciudad que va a agarrar la var introCity
-let introCity = prompt("Enter a city").toLowerCase();
+let currentdate = document.querySelector("#exact-date");
+let now = new Date();
+let date = now.getDate();
+let hours = now.getHours();
+if (hours < 10) {
+  hours = `0${hours}`;
+}
+let mins = now.getMinutes();
+if (mins < 10) {
+  mins = `0${mins}`;
+}
+let days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+let day = days[now.getDay()];
+let months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+let month = months[now.getMonth()];
+currentdate.innerHTML = `${date} ${month} ${hours}:${mins}`;
 
-// Aqui la funcion de for..in busca similitudes de el input con lo que hay en el obj. o keys
-//city es una var que le das a la busqueda y si el userInput es igual a algo dentro de weather
-//por city se va a cambiar.
-for (let city in weather) {
-  if (introCity === city) {
-    let roundedTemp = Math.round(weather[city].temp);
-    let roundedHumidity = Math.round(weather[city].humidity);
-    let faren = Math.round((roundedTemp * 9) / 5 + 32);
-    let cityFound = false;
+let weekday = document.querySelector("#weekday");
+weekday.innerHTML = `${day}`;
 
-    //aqui en la alerta tenemos un string con nuestros keys adentro que se buscan con nuestro objeto:Weather
-    // y con las llaves .temp y .humidity y city es el objeto dentro del objeto que tiene las keys dentro.
-    alert(
-      `It is currently ${roundedTemp}ºC (${faren}°F) in ${city} with a humidity of ${roundedHumidity}%`
-    );
-    cityFound = true;
-  }
+//Challenge 2
+
+function search(event) {
+  event.preventDefault();
+  let citySearch = document.querySelector("#city-search-input");
+
+  let apiKey = "b95f179627c8dd37f41e1be6e3250e19";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${citySearch.value}&units=metric`;
+
+  axios.get(`${apiUrl}&appid=${apiKey}`).then(showTemperature);
 }
 
-if (!cityFound) {
-  alert(
-    `Sorry we don't know the weather for this city, try going to https://www.google.com/search?q=weather+${introCity}`
-  );
+let form = document.querySelector(".searchbr");
+form.addEventListener("submit", search);
+
+//Hwrk week 5
+function showTemperature(response) {
+  console.log(response.data.main.temp);
+  let degrees = document.querySelector(`h3`);
+  let tempElement = document.querySelector(`h1`);
+  let temperature = Math.round(response.data.main.temp);
+  degrees.innerHTML = `${temperature}ºC`;
+  tempElement.innerHTML = `${response.data.name}`;
 }
